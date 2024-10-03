@@ -21,15 +21,6 @@ $(document).ready(function () {
   $(".strawberry-img").attr("src", strawberry);
   $(".tomato-img").attr("src", tomato);
 
-  // Create a popup element
-  const popup = $('<div class="popup"></div>').html(`
-    <h3>Whew, your memory is pretty nice! You win!</h3>
-    <button id="play-again">Play Again</button>
-  `);
-  $('body').append(popup);
-
-  // Hide popup initially
-  $('.popup').hide();
 
   const game = new MemoryGame();
   let matchCount = 0; // Track the number of matches
@@ -55,6 +46,10 @@ $(document).ready(function () {
       gameContainer.appendChild(card); // Append shuffled cards
     });
   }
+  function showPopup() {
+    $('.popup').addClass('show'); // Show popup with fade-in effect
+  }
+
 
   function flipCard(card) {
     card.classList.add('flipped');
@@ -81,8 +76,9 @@ $(document).ready(function () {
         $(".numberOfMatches").html(matchCount);
 
         // Check if all cards are matched
-        if (matchCount === totalPairs) {
+        if (matchCount === 8) {
           setTimeout(showPopup, 500); // Show popup after all matches are made
+          console.log(matchCount)
         }
       }
 
@@ -97,20 +93,23 @@ $(document).ready(function () {
     }
   }
 
+  
   function showPopup() {
-    $('.popup').fadeIn(); // Show popup with fade-in effect
+    $('.popup').addClass('show'); // Show popup with fade-in effect
   }
-
+  
   // Reset the game when 'Play Again' button is clicked
-  $(document).on('click', '#play-again', function () {
-    $('.popup').fadeOut(); // Hide popup
+  $('#play-again').on('click', function () {
+    $('.popup').removeClass('show'); // Hide popup with fade-out effect
     resetGame();
   });
-
+  
   // Reset the game when reset button is clicked
   $('#reset-btn').on('click', function () {
+    $('.popup').removeClass('show'); 
     resetGame();
   });
+  
 
   function resetGame() {
     game.resetGame(); // Reset game logic
@@ -122,6 +121,4 @@ $(document).ready(function () {
     });
   }
 });
-
-
 
